@@ -54,13 +54,10 @@ poetry run optimize-models --help
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-### Prerequisites
-
-To set up the local development environment for game_3d_toolkit, you will need to install Poetry.
-
 ### Setting up the local development environment
 
-To set up the local development environment for game_3d_toolkit, follow these steps:
+To set up the local development environment for `game_3d_toolkit`, you will need to install Poetry.
+Once this is done, follow these steps:
 
 1. Clone the repository:
 ```
@@ -77,4 +74,4 @@ cd game_3d_toolkit
 poetry install
 ```
 
-This will also install pre-commit, which is used to automatically run checks and formatting on the code before commits.
+This will also install `pre-commit`, which is used to automatically run checks and formatting on the code before commits.
