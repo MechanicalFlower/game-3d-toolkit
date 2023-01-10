@@ -79,14 +79,16 @@ def fix_model(model_file: Path) -> Path:
     """
     # Check if the file is already fixed, or if it is not a gLTF or GLB file
     if "fixed" not in model_file.name and model_file.suffix in (".gltf", ".glb"):
-        # Build the Blender command
-        command = ["blender", "--background", "--python", ".\\fix_model.py", "--", str(model_file)]
+        output_file = model_file.with_name("fixed_" + gltf_file.name)
 
-        # Run Blender to fix the model
-        subprocess.run(command, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+        # Import the GLTF file
+        bpy.ops.import_scene.gltf(filepath=str(model_file))
+
+        # Export the GLTF file
+        bpy.ops.export_scene.gltf(filepath=str(output_file))
 
         # Return the fixed version of the file
-        return model_file.with_name("fixed_" + model_file.name)
+        return output_file
 
     # Return the original file
     return model_file
