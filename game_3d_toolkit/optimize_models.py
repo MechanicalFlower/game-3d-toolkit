@@ -24,6 +24,7 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
+import bpy
 from tqdm import tqdm
 
 
@@ -79,7 +80,7 @@ def fix_model(model_file: Path) -> Path:
     """
     # Check if the file is already fixed, or if it is not a gLTF or GLB file
     if "fixed" not in model_file.name and model_file.suffix in (".gltf", ".glb"):
-        output_file = model_file.with_name("fixed_" + gltf_file.name)
+        output_file = model_file.with_name("fixed_" + model_file.name)
 
         # Import the GLTF file
         bpy.ops.import_scene.gltf(filepath=str(model_file))
