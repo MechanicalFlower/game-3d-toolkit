@@ -27,6 +27,8 @@ from typing import Optional
 import bpy
 from tqdm import tqdm
 
+from .silence import Silence
+
 
 def optimize_models(directory: Path, *, output_directory: Optional[Path] = None, fix: bool, replace: bool) -> None:
     """
@@ -65,7 +67,7 @@ def optimize_models(directory: Path, *, output_directory: Optional[Path] = None,
         command = ["gltfpack", "-cc", "-i", str(input_path), "-o", str(output_path)]
 
         # Run Meshoptimizer to optimize the model
-        subprocess.run(command, shell=True, stderr=subprocess.STDOUT)
+        subprocess.run(command, stderr=subprocess.STDOUT)
 
 
 def fix_model(model_file: Path) -> Path:
@@ -82,11 +84,12 @@ def fix_model(model_file: Path) -> Path:
     if "fixed" not in model_file.name and model_file.suffix in (".gltf", ".glb"):
         output_file = model_file.with_name("fixed_" + model_file.name)
 
-        # Import the GLTF file
-        bpy.ops.import_scene.gltf(filepath=str(model_file))
+        with Silence():
+            # Import the GLTF file
+            bpy.ops.import_scene.gltf(filepath=str(model_file))
 
-        # Export the GLTF file
-        bpy.ops.export_scene.gltf(filepath=str(output_file))
+            # Export the GLTF file
+            bpy.ops.export_scene.gltf(filepath=str(output_file))
 
         # Return the fixed version of the file
         return output_file

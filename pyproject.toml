@@ -15,7 +15,7 @@ repository = "https://github.com/florianvazelle/3d-toolkit"
 optimize-models = "game_3d_toolkit.optimize_models:cli"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.10.0,<3.11.0"
 tqdm = "^4.64.1"
 bpy = "^3.4.0"
 
