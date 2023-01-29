@@ -24,6 +24,11 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
+# Monkey patch bpy 3.4.0
+# AttributeError: module 'numpy' has no attribute 'bool'. Did you mean: 'bool_'?
+import numpy as np
+np.bool = np.bool_
+
 import bpy
 from tqdm import tqdm
 
