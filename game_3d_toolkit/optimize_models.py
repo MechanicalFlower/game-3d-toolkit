@@ -24,15 +24,15 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
-# Monkey patch bpy 3.4.0
-# AttributeError: module 'numpy' has no attribute 'bool'. Did you mean: 'bool_'?
-import numpy as np
-np.bool = np.bool_
-
 import bpy
+import numpy as np
 from tqdm import tqdm
 
 from .silence import Silence
+
+# Monkey patch bpy 3.4.0
+# AttributeError: module 'numpy' has no attribute 'bool'. Did you mean: 'bool_'?
+np.bool = np.bool_
 
 
 def optimize_models(directory: Path, *, output_directory: Optional[Path] = None, fix: bool, replace: bool) -> None:

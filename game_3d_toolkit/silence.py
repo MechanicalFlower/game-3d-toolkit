@@ -1,9 +1,10 @@
 import os
 
+
 class Silence:
     """Context manager which uses low-level file descriptors to suppress
     output to stdout/stderr, optionally redirecting to the named file(s).
-    
+
     >>> import sys, numpy.f2py
     >>> # build a test fortran extension module with F2PY
     ...
@@ -60,51 +61,66 @@ class Silence:
      n =  2
     Goodbye from Python!
     Hello from stderr
-    
+
     ================================
     >>> foo, bar, baz
     (1, 2, 3)
     >>>
 
     """
-    def __init__(self, stdout=os.devnull, stderr=os.devnull, mode='w'):
+
+    def __init__(self, stdout=os.devnull, stderr=os.devnull, mode="w"):
         self.outfiles = stdout, stderr
-        self.combine = (stdout == stderr)
+        self.combine = stdout == stderr
         self.mode = mode
-        
+
     def __enter__(self):
         import sys
+
         self.sys = sys
+
         # save previous stdout/stderr
         self.saved_streams = saved_streams = sys.__stdout__, sys.__stderr__
         self.fds = fds = [s.fileno() for s in saved_streams]
         self.saved_fds = map(os.dup, fds)
+
         # flush any pending output
-        for s in saved_streams: s.flush()
+        for ss in saved_streams:
+            ss.flush()
 
         # open surrogate files
-        if self.combine: 
+        if self.combine:
             null_streams = [open(self.outfiles[0], self.mode)] * 2
+
             if self.outfiles[0] != os.devnull:
                 # disable buffering so output is merged immediately
-                sys.stdout, sys.stderr = map(os.fdopen, fds, ['w']*2, [0]*2)
-        else: 
+                sys.stdout, sys.stderr = map(os.fdopen, fds, ["w"] * 2, [0] * 2)  # type: ignore
+
+        else:
             null_streams = [open(f, self.mode) for f in self.outfiles]
+
         sys.stdout, sys.stderr = null_streams
         self.null_fds = null_fds = [s.fileno() for s in null_streams]
         self.null_streams = null_streams
-        
+
         # overwrite file objects and low-level file descriptors
         map(os.dup2, null_fds, fds)
 
     def __exit__(self, *args):
         sys = self.sys
+
         # flush any pending output
-        for s in self.saved_streams: s.flush()
+        for ss in self.saved_streams:
+            ss.flush()
+
         # restore original streams and file descriptors
         map(os.dup2, self.saved_fds, self.fds)
-        sys.stdout, sys.stderr = self.saved_streams
+        sys.stdout, sys.stderr = self.saved_streams  # type: ignore
+
         # clean up
-        for s in self.null_streams: s.close()
-        for fd in self.saved_fds: os.close(fd)
+        for ss in self.null_streams:
+            ss.close()
+        for fd in self.saved_fds:
+            os.close(fd)
+
         return False
