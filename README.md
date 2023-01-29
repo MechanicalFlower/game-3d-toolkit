@@ -3,7 +3,7 @@
 
 # 📦 Game 3D Toolkit
 
-![license](https://img.shields.io/badge/license-MIT-green?logo=open-source-initiative&logoColor=white)
+![python_version](https://img.shields.io/badge/python-3.10-blue?logo=python&logoColor=white) ![license](https://img.shields.io/badge/license-MIT-green?logo=open-source-initiative&logoColor=white)
 
 A package that contains a variety of tools for working with 3D models in the context of game development.
 
