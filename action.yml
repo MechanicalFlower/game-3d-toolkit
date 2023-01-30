@@ -1,0 +1,25 @@
+name: game-3d-toolkit
+
+description: ""
+
+inputs:
+  cmd:
+    description: 'Command-line name'
+    required: true
+
+  args:
+    description: 'Command-line arguments'
+    default: ''
+
+  directory:
+    description: '[optimize-models] Directory containing the 3D models to optimize'
+    default: '.'
+
+runs:
+  using: "composite"
+  steps:
+    - if: ${{ inputs.cmd }} == 'optimize-models'
+      uses: ./.github/actions/optimize-models
+      with:
+        directory: ${{ inputs.directory }}
+        args: ${{ inputs.args }}

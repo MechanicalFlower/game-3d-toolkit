@@ -1,0 +1,54 @@
+name: optimize-models
+
+description: "Optimizes 3D models to reduce file size without sacrificing quality"
+
+inputs:
+  args:
+    description: 'Command-line arguments'
+    default: ''
+
+  directory:
+    description: 'Directory containing the 3D models to optimize'
+    default: '.'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Node 16
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install gltfpack
+      run: npm install -g gltfpack
+      shell: bash
+
+    - name: Install game-3d-toolkit
+      run: pip install --force-reinstall git+https://github.com/MechanicalFlower/game-3d-toolkit.git
+      shell: bash
+
+    - name: Optimize 3D models
+      run: optimize-models ${{ inputs.directory }} ${{ inputs.args }}
+      shell: bash
+
+    - name: Set Output Variables
+      id: vars
+      run: |
+        echo "base_branch=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+        echo "pr_branch=patch-$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4.2.3
+      with:
+        title: 'Optimize models'
+        body: '## Your models are optimized !\nYour model file size has been reduced 🎉'
+        commit-message: 'chore(assets): optimize models'
+        branch: ${{ steps.vars.outputs.pr_branch }}
+        base: ${{ steps.vars.outputs.base_branch }}
+        delete-branch: true

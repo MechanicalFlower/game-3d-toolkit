@@ -1,0 +1,15 @@
+name: Optimize models
+
+on:
+  push:
+
+jobs:
+  optimize-models:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          cmd: optimize-models
+          args: '--replace'
+          directory: ./demo
