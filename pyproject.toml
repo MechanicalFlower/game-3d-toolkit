@@ -27,7 +27,7 @@ mypy = "^0.991"
 flakeheaven = "^3.2.1"
 
 [tool.black]
-line-length = 120
+line-length = 130
 include = '\.pyi?$'
 exclude = '''
 /(
@@ -43,7 +43,7 @@ exclude = '''
 [tool.isort]
 profile = "black"
 multi_line_output = 3
-line_length = 120
+line_length = 130
 
 [tool.mypy]
 ignore_missing_imports = true
@@ -51,7 +51,7 @@ check_untyped_defs = true
 disallow_incomplete_defs = true
 
 [tool.flakeheaven]
-max_line_length = 120
+max_line_length = 130
 
 [tool.flakeheaven.plugins]
 pyflakes = ["+*"]

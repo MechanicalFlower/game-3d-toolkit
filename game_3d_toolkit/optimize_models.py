@@ -109,17 +109,13 @@ def cli():
     parser.add_argument("directory", help="directory containing the 3D models to optimize")
     parser.add_argument("--output-directory", help="directory to store the optimized 3D models", default=None)
     parser.add_argument("--no-fix", action="store_true", help="skip the step of fixing gLTF files with errors")
-    parser.add_argument(
-        "--replace", action="store_true", help="replace the original 3D models with the optimized versions"
-    )
+    parser.add_argument("--replace", action="store_true", help="replace the original 3D models with the optimized versions")
     args = parser.parse_args()
 
     output_directory = Path(args.output_directory) if args.output_directory else None
 
     # Optimize models in the specified directory
-    optimize_models(
-        Path(args.directory), output_directory=output_directory, fix=(not args.no_fix), replace=args.replace
-    )
+    optimize_models(Path(args.directory), output_directory=output_directory, fix=(not args.no_fix), replace=args.replace)
 
 
 if __name__ == "__main__":
