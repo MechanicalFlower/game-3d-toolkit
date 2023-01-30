@@ -30,20 +30,10 @@ repos:
   hooks:
   - id: isort
 
-- repo: https://github.com/pycqa/flake8
-  rev: 5.0.4
+- repo: https://github.com/flakeheaven/flakeheaven
+  rev: 3.2.1
   hooks:
-    - id: flake8
-      additional_dependencies: [
-        'pep8-naming',
-        'flake8-comprehensions',
-        'flake8-bugbear',
-        'flake8-pytest-style',
-        'flake8-variables-names',
-        'flake8-class-attributes-order',
-        'flake8-keyword-arguments',
-        'dlint',
-      ]
+    - id: flakeheaven
 
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: v0.991

@@ -24,7 +24,7 @@ pre-commit = "^2.2.0"
 black = "^22.12.0"
 isort = "^5.12.0"
 mypy = "^0.991"
-flake8 = "^5.0.4"
+flakeheaven = "^3.2.1"
 
 [tool.black]
 line-length = 120
@@ -49,3 +49,14 @@ line_length = 120
 ignore_missing_imports = true
 check_untyped_defs = true
 disallow_incomplete_defs = true
+
+[tool.flakeheaven]
+max_line_length = 120
+
+[tool.flakeheaven.plugins]
+pyflakes = ["+*"]
+pep8-naming = ["+*"]
+dlint = ["+*"]
+flake8-keyword-arguments = ["+*", '-FKA01']
+# enable everything that starts from `flake8-`
+"flake8-*" = ["+*"]
